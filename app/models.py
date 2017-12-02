@@ -17,11 +17,7 @@ class Pet(models.Model):
     condition = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     contact_person_id = models.CharField(max_length=100)
-<<<<<<< HEAD
-    photo = models.ImageField()
-=======
     photo = models.ImageField(upload_to='pets', default='media/default.jpg')
->>>>>>> 6f5b886fc5f3bf5c0bc48fbf60cc28264a837d14
 
     def __str__(self):
         return self.name

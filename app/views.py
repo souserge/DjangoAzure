@@ -23,7 +23,9 @@ def get_pets(request):
         pets = Pet.objects.filter(
             type=query['type'][0].lower(),
             sex=query['sex'][0].lower(),
+            location=query['city'][0],
         )
+        
         json_res = compose_json(pets)
         print(json.dumps(json_res, indent=4, sort_keys=True))
         return JsonResponse(json_res)
@@ -32,16 +34,14 @@ def get_pets(request):
 def compose_json(pets):
     elements = []
     for pet in pets:
-<<<<<<< HEAD
         age = DATE - pet.date_of_birth
-        msgs.append({ 
-            "text": pet.name + "\n" + pet.type + ", " + pet.sex + age
-=======
         elements.append({ 
             "title": pet.name,
             "image_url": "http://561e5a1a.ngrok.io" + pet.photo.url,
-            "subtitle": "A " + pet.type + ", " + ('male' if pet.sex.lower() == 'm' else 'female'),
->>>>>>> 6f5b886fc5f3bf5c0bc48fbf60cc28264a837d14
+            "subtitle": 
+                pet.type
+                + ", " + ('male' if pet.sex.lower() == 'm' else 'female')
+                + ', ' + age + ' y.o.',
         })
     
     return { 
