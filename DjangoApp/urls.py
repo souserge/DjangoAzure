@@ -19,23 +19,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = [
-    # Examples:
-    url(r'^$', home, name='home'),
-    url(r'^contact$', contact, name='contact'),
-    url(r'^about', about, name='about'),
-    # url(r'^login/$', login, {
-    #         'template_name': 'app/login.html',
-    #         'authentication_form': BootstrapAuthenticationForm,
-    #         'extra_context':
-    #         {
-    #             'title':'Log in',
-    #             'year':datetime.now().year,
-    #         }
-    #     },
-    #     name='login'),
-    # url(r'^logout$', logout, {  'next_page': '/'  },        name='logout'),
     url(r'^bot/', include('app.urls')),
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ]
 

@@ -13,8 +13,11 @@ from .models import Pet
 import datetime
 
 test_json = {}
-DATE = datetime.date.today
 
+def add_pets(request):
+    query = get_query(request)
+    if request.method == 'GET' and not (query is None):
+        return JsonResponse("json_res")
 
 def get_pets(request):
     query = get_query(request)
@@ -32,7 +35,9 @@ def get_pets(request):
 
 
 def compose_json(pets):
+    DATE = datetime.date.today
     elements = []
+
     for pet in pets:
         age = DATE - pet.date_of_birth
         elements.append({ 
@@ -58,10 +63,7 @@ def compose_json(pets):
             }
         ]
     }
-
-
-
-    
+  
 
 def get_query(request):
     full_path = request.get_full_path().split('?')
@@ -69,50 +71,3 @@ def get_query(request):
         return parse.parse_qs(full_path[1])
     else:
         return None
-
-
-
-
-def test(request):
-    print('test')
-    json_response = {
-        "messages": [
-        ]
-    }
-    print(request)
-
-
-    if request.method == 'GET':
-        full_path = request.get_full_path().split('?')
-        if len(full_path) > 1:
-            json_str = json.dumps(parse.parse_qs(full_path[1]))
-
-            json_response['messages'].append({"text": "Getting query:"})
-            json_response['messages'].append({"text": json_str }) 
-        else:
-            json_response['messages'].append({"text": "Getting nothing"})
-        
-    else:
-        try:
-            body = json.loads(request.body)
-            test_json = body
-            print(body)
-            json_response['messages'].append({"text": "Echoing:"})
-            json_response['messages'].append({"text": str(body) + "body" })
-        except:       
-            json_response['messages'].append({"text": "Url:" })
-            json_response['messages'].append({"text": request.path })
-
-    print(json_response)
-    return JsonResponse(json_response)
-
-
-
-
-
-
-
-
-
-def jsson(request):
-    return JsonResponse(test_json)
