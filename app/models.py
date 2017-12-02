@@ -17,7 +17,7 @@ class Pet(models.Model):
     condition = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     contact_person_id = models.CharField(max_length=100)
-    photo = models.FileField()
+    photo = models.ImageField()
 
     def __str__(self):
         return self.name

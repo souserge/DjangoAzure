@@ -9,9 +9,12 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 import json
 from urllib import parse
-from .models import Pet 
+from .models import Pet
+import datetime
 
 test_json = {}
+DATE = datetime.date.today
+
 
 def get_pets(request):
     query = get_query(request)
@@ -29,8 +32,9 @@ def get_pets(request):
 def compose_json(pets):
     msgs = []
     for pet in pets:
+        age = DATE - pet.date_of_birth
         msgs.append({ 
-            "text": pet.name + "\n" + pet.type + ", " + pet.sex 
+            "text": pet.name + "\n" + pet.type + ", " + pet.sex + age
         })
         msgs.append({ 
             "attachment": add_image(pet) 
@@ -103,44 +107,3 @@ def test(request):
 
 def jsson(request):
     return JsonResponse(test_json)
-
-def home(request):
-    """Renders the home page."""
-    assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'app/index.html',
-        context_instance = RequestContext(request,
-        {
-            'title':'Kociaki bot',
-            'year':datetime.now().year,
-        })
-    )
-
-def contact(request):
-    """Renders the contact page."""
-    assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'app/contact.html',
-        context_instance = RequestContext(request,
-        {
-            'title':'Contact',
-            'message':'Your contact page.',
-            'year':datetime.now().year,
-        })
-    )
-
-def about(request):
-    """Renders the about page."""
-    assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'app/about.html',
-        context_instance = RequestContext(request,
-        {
-            'title':'About',
-            'message':'Your application description page.',
-            'year':datetime.now().year,
-        })
-    )
