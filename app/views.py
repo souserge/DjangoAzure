@@ -6,6 +6,14 @@ from django.shortcuts import render
 from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
+from django.http import JsonResponse
+
+
+
+
+def test(request):
+    return JsonResponse({'text':'Hi, I am a bot'})
+    
 
 def home(request):
     """Renders the home page."""

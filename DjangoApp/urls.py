@@ -3,7 +3,7 @@ Definition of urls for DjangoApp.
 """
 
 from datetime import datetime
-from django.conf.urls import url
+from django.conf.urls import include, url
 from app.forms import BootstrapAuthenticationForm
 from app.views import *
 from app.models import *
@@ -16,12 +16,11 @@ from django.contrib.auth.views import *
 # admin.autodiscover()
 
 urlpatterns = [
-    # Examples:
-     
+    # Examples: 
     url(r'^$', home, name='home'),
     url(r'^contact$', contact, name='contact'),
     url(r'^about', about, name='about'),
-   url(r'^login/$', login, {
+    url(r'^login/$', login, {
             'template_name': 'app/login.html',
             'authentication_form': BootstrapAuthenticationForm,
             'extra_context':
@@ -31,7 +30,8 @@ urlpatterns = [
             }
         },
         name='login'),
-       url(r'^logout$', logout, {  'next_page': '/'  },        name='logout')
+    url(r'^logout$', logout, {  'next_page': '/'  },        name='logout')
+    url(r'^bot/', include('app.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
