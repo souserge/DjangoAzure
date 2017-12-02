@@ -9,6 +9,8 @@ from datetime import datetime
 from django.http import JsonResponse
 from django.http import HttpResponse
 import json
+#from bs4 import BeautifulSoup
+import requests
 
 test_json = {}
 
@@ -17,14 +19,24 @@ def test(request):
         "messages": [
         ]
     }
-    try:
-        body = json.loads(request.body)
-        test_json = body
+
+
+
+    if request.method == 'GET':
+        # response = requests.get(request.path)
+        # #soup = BeautifulSoup(response.content, "html.parser")
+        # data = json.load(response) 
         json_response['messages'].append({"text": "Echoing:"})
-        json_response['messages'].append({"text": body })
-    except:
-        json_response['messages'].append({"text": "Url:" })
-        json_response['messages'].append({"text": request.path })
+        # json_response['messages'].append({"text": data })
+    else:
+        try:
+            body = json.loads(request.body)
+            test_json = body
+            json_response['messages'].append({"text": "Echoing:"})
+            json_response['messages'].append({"text": body })
+        except:
+            json_response['messages'].append({"text": "Url:" })
+            json_response['messages'].append({"text": request.path })
 
     return JsonResponse(json_response)
     
