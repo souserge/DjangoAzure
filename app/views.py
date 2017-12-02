@@ -19,9 +19,11 @@ def get_pets(request):
         print('Received query: ' + str(query))
         pets = Pet.objects.filter(
             type=query['type'][0],
-            sex=query['sex'][0],
+            sex=query['sex'][0].upper(),
         )
-        return JsonResponse(compose_json(pets))
+        json_res = compose_json(pets)
+        print(json.dumps(json_res, indent=4, sort_keys=True))
+        return JsonResponse(json_res)
 
 
 def compose_json(pets):
@@ -43,7 +45,7 @@ def add_image(pet):
     return {
         "type": "image",
         "payload": {
-            "url": pet.photo.url
+            "url": "https://561e5a1a.ngrok.io" + pet.photo.url
         }
     }
     
