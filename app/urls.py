@@ -7,5 +7,6 @@ from django.contrib.auth.views import *
 from . import views
 
 urlpatterns = [
-    url(r'^test/$', views.test, name='test'),
+    url(r'^test/', views.test, name='test'),
+     url(r'^jsson/$', views.jsson, name='t'),
 ]

@@ -10,6 +10,8 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 import json
 
+test_json = {}
+
 def test(request):
     json_response = {
         "messages": [
@@ -17,13 +19,17 @@ def test(request):
     }
     try:
         body = json.loads(request.body)
+        test_json = body
         json_response['messages'].append({"text": "Echoing:"})
         json_response['messages'].append({"text": body })
     except:
-        json_response['messages'].append({"text": "could not parse JSON :("})
+        json_response['messages'].append({"text": request.path })
 
     return JsonResponse(json_response)
     
+
+def jsson(request):
+    return JsonResponse(test_json)
 
 def home(request):
     """Renders the home page."""
