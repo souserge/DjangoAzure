@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 import json
 #from bs4 import BeautifulSoup
-import requests
+# import requests
 
 test_json = {}
 
