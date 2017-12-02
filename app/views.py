@@ -26,14 +26,14 @@ def test(request):
         # response = requests.get(request.path)
         # #soup = BeautifulSoup(response.content, "html.parser")
         # data = json.load(response) 
-        json_response['messages'].append({"text": "Echoing:"})
+        json_response['messages'].append({"text": "Getting nothing"})
         # json_response['messages'].append({"text": data })
     else:
         try:
             body = json.loads(request.body)
             test_json = body
             json_response['messages'].append({"text": "Echoing:"})
-            json_response['messages'].append({"text": body })
+            json_response['messages'].append({"text": str(body) + "body" })
         except:
             json_response['messages'].append({"text": "Url:" })
             json_response['messages'].append({"text": request.path })
