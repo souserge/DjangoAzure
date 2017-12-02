@@ -12,3 +12,7 @@ class Pet(models.Model):
     data_of_birth = models.CharField(max_length=100)
     condition = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
+    photo = models.FileField()
+
+    def __str__(self):
+        return self.name
