@@ -34,8 +34,7 @@ urlpatterns = [
     #     },
     #     name='login'),
     # url(r'^logout$', logout, {  'next_page': '/'  },        name='logout'),
-    url(r'^app/', include('app.urls')),
-
+    url(r'^bot/', include('app.urls')),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ]

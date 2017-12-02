@@ -1,7 +1,6 @@
 """
 Definition of views.
 """
-
 from django.shortcuts import render
 from django.http import HttpRequest
 from django.template import RequestContext
@@ -10,10 +9,54 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 import json
 from urllib import parse
-
-json.dumps(parse.parse_qs("a=1&b=2"))
+from .models import Pet 
 
 test_json = {}
+
+def get_pets(request):
+    query = get_query(request)
+    if request.method == 'GET' and not (query is None):
+        print('Received query: ' + str(query))
+        pets = Pet.objects.filter(
+            type=query['type'][0],
+            sex=query['sex'][0],
+        )
+        return JsonResponse(compose_json(pets))
+
+
+def compose_json(pets):
+    msgs = []
+    for pet in pets:
+        msgs.append({ 
+            "text": pet.name + "\n" + pet.type + ", " + pet.sex 
+        })
+        msgs.append({ 
+            "attachment": add_image(pet) 
+        })
+
+    return { 'messages': msgs }
+
+
+
+
+def add_image(pet):
+    return {
+        "type": "image",
+        "payload": {
+            "url": pet.photo.url
+        }
+    }
+    
+
+def get_query(request):
+    full_path = request.get_full_path().split('?')
+    if len(full_path) > 1:
+        return parse.parse_qs(full_path[1])
+    else:
+        return None
+
+
+
 
 def test(request):
     print('test')
@@ -47,7 +90,14 @@ def test(request):
 
     print(json_response)
     return JsonResponse(json_response)
-    
+
+
+
+
+
+
+
+
 
 def jsson(request):
     return JsonResponse(test_json)
