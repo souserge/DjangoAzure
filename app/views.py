@@ -21,8 +21,8 @@ def get_pets(request):
     if request.method == 'GET' and not (query is None):
         print('Received query: ' + str(query))
         pets = Pet.objects.filter(
-            type=query['type'][0],
-            sex=query['sex'][0].upper(),
+            type=query['type'][0].lower(),
+            sex=query['sex'][0].lower(),
         )
         json_res = compose_json(pets)
         print(json.dumps(json_res, indent=4, sort_keys=True))
@@ -30,28 +30,37 @@ def get_pets(request):
 
 
 def compose_json(pets):
-    msgs = []
+    elements = []
     for pet in pets:
+<<<<<<< HEAD
         age = DATE - pet.date_of_birth
         msgs.append({ 
             "text": pet.name + "\n" + pet.type + ", " + pet.sex + age
+=======
+        elements.append({ 
+            "title": pet.name,
+            "image_url": "http://561e5a1a.ngrok.io" + pet.photo.url,
+            "subtitle": "A " + pet.type + ", " + ('male' if pet.sex.lower() == 'm' else 'female'),
+>>>>>>> 6f5b886fc5f3bf5c0bc48fbf60cc28264a837d14
         })
-        msgs.append({ 
-            "attachment": add_image(pet) 
-        })
-
-    return { 'messages': msgs }
-
-
-
-
-def add_image(pet):
-    return {
-        "type": "image",
-        "payload": {
-            "url": "https://561e5a1a.ngrok.io" + pet.photo.url
-        }
+    
+    return { 
+        'messages': [
+            {
+                'attachment': {
+                    "type": "template",
+                    "payload": {
+                        "template_type":"generic",
+                        "image_aspect_ratio": "square",
+                        "elements": elements
+                    }
+                }
+            }
+        ]
     }
+
+
+
     
 
 def get_query(request):
