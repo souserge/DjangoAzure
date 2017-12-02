@@ -12,7 +12,14 @@ from django.http import JsonResponse
 
 
 def test(request):
-    return JsonResponse({'text':'Hi, I am a bot'})
+    json = {
+        "messages": [
+            {"text": "Welcome to the Chatfuel Rockets!"},
+            {"text": "What are you up to?"}
+        ]
+    }
+
+    return JsonResponse(json)
     
 
 def home(request):
