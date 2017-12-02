@@ -18,8 +18,8 @@ def get_pets(request):
     if request.method == 'GET' and not (query is None):
         print('Received query: ' + str(query))
         pets = Pet.objects.filter(
-            type=query['type'][0],
-            sex=query['sex'][0].upper(),
+            type=query['type'][0].lower(),
+            sex=query['sex'][0].lower(),
         )
         json_res = compose_json(pets)
         print(json.dumps(json_res, indent=4, sort_keys=True))
@@ -31,8 +31,8 @@ def compose_json(pets):
     for pet in pets:
         elements.append({ 
             "title": pet.name,
-            "image_url": "https://561e5a1a.ngrok.io" + pet.photo.url,
-            "subtitle": pet.type + ", " + ('male' if pet.sex.lower() == 'm' else 'female'),
+            "image_url": "http://561e5a1a.ngrok.io" + pet.photo.url,
+            "subtitle": "A " + pet.type + ", " + ('male' if pet.sex.lower() == 'm' else 'female'),
         })
     
     return { 
@@ -41,14 +41,16 @@ def compose_json(pets):
                 'attachment': {
                     "type": "template",
                     "payload": {
-                        "template_type": "list",
-                        "top_element_style": "large",
+                        "template_type":"generic",
+                        "image_aspect_ratio": "square",
                         "elements": elements
                     }
                 }
             }
         ]
     }
+
+
 
     
 
