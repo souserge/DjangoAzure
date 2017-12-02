@@ -23,6 +23,7 @@ def test(request):
         json_response['messages'].append({"text": "Echoing:"})
         json_response['messages'].append({"text": body })
     except:
+        json_response['messages'].append({"text": "Url:" })
         json_response['messages'].append({"text": request.path })
 
     return JsonResponse(json_response)
