@@ -9,25 +9,31 @@ from datetime import datetime
 from django.http import JsonResponse
 from django.http import HttpResponse
 import json
-#from bs4 import BeautifulSoup
-# import requests
+from urllib import parse
+
+json.dumps(parse.parse_qs("a=1&b=2"))
 
 test_json = {}
 
 def test(request):
+    print('test')
     json_response = {
         "messages": [
         ]
     }
-
+    print(request)
 
 
     if request.method == 'GET':
-        # response = requests.get(request.path)
-        # #soup = BeautifulSoup(response.content, "html.parser")
-        # data = json.load(response) 
-        json_response['messages'].append({"text": "Getting nothing"})
-        # json_response['messages'].append({"text": data })
+        full_path = request.get_full_path().split('?')
+        if len(full_path) > 1:
+            json_str = json.dumps(parse.parse_qs(full_path[1]))
+
+            json_response['messages'].append({"text": "Getting query:"})
+            json_response['messages'].append({"text": json_str }) 
+        else:
+            json_response['messages'].append({"text": "Getting nothing"})
+        
     else:
         try:
             body = json.loads(request.body)
@@ -35,7 +41,7 @@ def test(request):
             print(body)
             json_response['messages'].append({"text": "Echoing:"})
             json_response['messages'].append({"text": str(body) + "body" })
-        except:
+        except:       
             json_response['messages'].append({"text": "Url:" })
             json_response['messages'].append({"text": request.path })
 
