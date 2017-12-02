@@ -32,12 +32,14 @@ def test(request):
         try:
             body = json.loads(request.body)
             test_json = body
+            print(body)
             json_response['messages'].append({"text": "Echoing:"})
             json_response['messages'].append({"text": str(body) + "body" })
         except:
             json_response['messages'].append({"text": "Url:" })
             json_response['messages'].append({"text": request.path })
 
+    print(json_response)
     return JsonResponse(json_response)
     
 
