@@ -11,15 +11,16 @@ from django.http import HttpResponse
 import json
 
 def test(request):
-    body_unicode = request.body.decode('utf-8')
-    body = json.loads(body_unicode)
-    content = body['content']
     json_response = {
         "messages": [
-            {"text": "Echoing:"},
-            {"text": content }
         ]
     }
+    try:
+        body = json.loads(request.body)
+        json_response['messages'].append({"text": "Echoing:"})
+        json_response['messages'].append({"text": body })
+    except:
+        json_response['messages'].append({"text": "could not parse JSON :("})
 
     return JsonResponse(json_response)
     
