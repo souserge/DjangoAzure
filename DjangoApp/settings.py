@@ -15,6 +15,8 @@ TEMPLATE_DEBUG = DEBUG
 ALLOWED_HOSTS = (
     'localhost',
     '127.0.0.1',
+    '.ngrok.io',
+    '561e5a1a.ngrok.io',
 )
 
 ADMINS = (
