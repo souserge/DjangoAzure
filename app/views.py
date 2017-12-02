@@ -7,19 +7,21 @@ from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
 from django.http import JsonResponse
-
-
-
+from django.http import HttpResponse
+import json
 
 def test(request):
-    json = {
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    content = body['content']
+    json_response = {
         "messages": [
-            {"text": "Welcome to the Chatfuel Rockets!"},
-            {"text": "What are you up to?"}
+            {"text": "Echoing:"},
+            {"text": content }
         ]
     }
 
-    return JsonResponse(json)
+    return JsonResponse(json_response)
     
 
 def home(request):
