@@ -30,7 +30,7 @@ urlpatterns = [
             }
         },
         name='login'),
-    url(r'^logout$', logout, {  'next_page': '/'  },        name='logout')
+    url(r'^logout$', logout, {  'next_page': '/'  },        name='logout'),
     url(r'^bot/', include('app.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
