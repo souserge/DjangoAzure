@@ -27,27 +27,29 @@ def get_pets(request):
 
 
 def compose_json(pets):
-    msgs = []
+    elements = []
     for pet in pets:
-        msgs.append({ 
-            "text": pet.name + "\n" + pet.type + ", " + pet.sex 
+        elements.append({ 
+            "title": pet.name,
+            "image_url": "https://561e5a1a.ngrok.io" + pet.photo.url,
+            "subtitle": pet.type + ", " + ('male' if pet.sex.lower() == 'm' else 'female'),
         })
-        msgs.append({ 
-            "attachment": add_image(pet) 
-        })
-
-    return { 'messages': msgs }
-
-
-
-
-def add_image(pet):
-    return {
-        "type": "image",
-        "payload": {
-            "url": "https://561e5a1a.ngrok.io" + pet.photo.url
-        }
+    
+    return { 
+        'messages': [
+            {
+                'attachment': {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "list",
+                        "top_element_style": "large",
+                        "elements": elements
+                    }
+                }
+            }
+        ]
     }
+
     
 
 def get_query(request):
